@@ -32,9 +32,9 @@
 
 		<?=$arProperty["NAME"]?>:&nbsp;
 		<?if(is_array($arProperty["DISPLAY_VALUE"])):?>
-			<?=implode("&nbsp;/&nbsp;", $arProperty["DISPLAY_VALUE"]);?>
+			<?=implode("&nbsp;/&nbsp;", $arProperty["DISPLAY_VALUE"]);?>%
 		<?else:?>
-			<?=$arProperty["DISPLAY_VALUE"];?>
+			<?=$arProperty["DISPLAY_VALUE"];?>%
 		<?endif?>
 		<br />
 	<?endforeach;?>
