@@ -13,3 +13,6 @@ Thumbs.db
 /local/vendor/
 /cgi-bin
 /web.config
+images
+/local/modules/sprint.migration
+/local/composer.lock

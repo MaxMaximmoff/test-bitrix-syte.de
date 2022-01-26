@@ -46,9 +46,8 @@ $APPLICATION->SetTitle("Акции");
 			1 => "",
 		),
 		"LIST_PROPERTY_CODE" => array(
-			0 => "",
-			1 => "DISCOUNT_AMOUNT",
-			2 => "",
+			0 => "DISCOUNT_AMOUNT",
+			1 => "",
 		),
 		"HIDE_LINK_WHEN_NO_DETAIL" => "Y",
 		"DISPLAY_NAME" => "Y",
@@ -61,7 +60,7 @@ $APPLICATION->SetTitle("Акции");
 			1 => "",
 		),
 		"DETAIL_PROPERTY_CODE" => array(
-			0 => "",
+			0 => "DISCOUNT_AMOUNT",
 			1 => "",
 		),
 		"DETAIL_DISPLAY_TOP_PAGER" => "N",
