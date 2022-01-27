@@ -146,7 +146,6 @@ class CardsListComponent extends CBitrixComponent
             ];
 
             $arGridElement['actions'] = [
-              'actions' => [
                 [
                   'text'    => 'Редактировать',
                   'onclick' => 'document.location.href="/accountant/reports/'.$arItem['ID'].'/edit/"'
@@ -154,7 +153,6 @@ class CardsListComponent extends CBitrixComponent
                 [
                   'text'    => 'Удалить',
                   'onclick' => 'document.location.href="/accountant/reports/'.$arItem['ID'].'/delete/"'
-                ]
               ],
             ];
             $arBody[] = $arGridElement;
