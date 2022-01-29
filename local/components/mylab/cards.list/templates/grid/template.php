@@ -3,6 +3,7 @@
 }
 
 ?>
+<!--<p>--><?//= var_dump($arResult['GRID_BODY']); ?><!--</p>-->
 <?php $APPLICATION->includeComponent(
     'bitrix:main.ui.filter',
     '',

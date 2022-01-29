@@ -8,3 +8,5 @@ $MESS['MYLAB.CARD.LIST.CLASS.EXP_DATA'] = 'Дата окончания дейс�
 $MESS['MYLAB.CARD.LIST.CLASS.TOTAL_COST'] = 'Суммарная стоимость обслуживания карты:';
 $MESS['MYLAB.CARD.LIST.CLASS.SECRET'] = 'Секретный ключ';
 $MESS['MYLAB.CARD.LIST.CLASS.ADD'] = 'Добавить';
+$MESS['MYLAB.CARD.LIST.CLASS.EDIT'] = 'Редактировать';
+$MESS['MYLAB.CARD.LIST.CLASS.DELETE'] = 'Удалить';

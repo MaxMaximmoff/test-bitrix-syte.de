@@ -68,16 +68,25 @@ class CardsListComponent extends CBitrixComponent
     {
         $result = [];
 
-        $arFilter = [
-            'ACTIVE' => 'Y',
-            'IBLOCK_ID' => $this->idIBlock,
-        ];
+      // Фильтрация
+        $arFilter = $this->getGridFilterValues();
+      // Постраничная навигация
+        if (!$this->getGridNav()->allRecordsShown()) {
+          $arNav['iNumPage'] = $this->getGridNav()->getCurrentPage();
+          $arNav['nPageSize'] = $this->getGridNav()->getPageSize();
+        } else {
+          $arNav = false;
+        }
+      // Сортировка
+        $arCurSort = $this->getObGridParams()->getSorting(['sort' => ['ID' => 'DESC']])['sort'];
 
         $elements = CIBlockElement::GetList(
-            [],
+//            [],
+            $arCurSort,
             $arFilter,
             false,
-            false,
+//            false,
+            $arNav,
             ['ID', 'IBLOCK_ID', 'PROPERTY_CARD_NUMBER', 'PROPERTY_CARD_USER', 'PROPERTY_CARD_TYPE',
               'PROPERTY_CARD_MAINTENANCE_COST', 'PROPERTY_CARD_VALID_PERIOD', 'PROPERTY_CARD_EXPIRATION_DATE']
         );
@@ -85,7 +94,7 @@ class CardsListComponent extends CBitrixComponent
 
         while ($element = $elements->GetNext()) {
             $cardSecret = md5($element['PROPERTY_CARD_NUMBER_VALUE']);
-            $cardTotalCost = $element['PROPERTY_CARD_MAINTENANCE_COST_VALUE'] * $element['PROPERTY_CARD_VALID_PERIOD_VALUE'];
+            $cardTotalCost = (int)$element['PROPERTY_CARD_MAINTENANCE_COST_VALUE'] * (int)$element['PROPERTY_CARD_VALID_PERIOD_VALUE'];
 
             $result[] = [
                 'ID' => $element['ID'],
@@ -147,11 +156,11 @@ class CardsListComponent extends CBitrixComponent
 
             $arGridElement['actions'] = [
                 [
-                  'text'    => 'Редактировать',
+                  'text' => Loc::getMessage('MYLAB.CARD.LIST.CLASS.DELETE'),
                   'onclick' => 'document.location.href="/accountant/reports/'.$arItem['ID'].'/edit/"'
                 ],
                 [
-                  'text'    => 'Удалить',
+                  'text' => Loc::getMessage('MYLAB.CARD.LIST.CLASS.EDIT'),
                   'onclick' => 'document.location.href="/accountant/reports/'.$arItem['ID'].'/delete/"'
               ],
             ];
@@ -195,6 +204,7 @@ class CardsListComponent extends CBitrixComponent
                 'id' => 'CARD_USER',
                 'name' => Loc::getMessage('MYLAB.CARD.LIST.CLASS.USER'),
                 'default' => true,
+                'sort' => 'PROPERTY_CARD_USER',
             ],
             [
                 'id' => 'CARD_TYPE',
@@ -266,6 +276,16 @@ class CardsListComponent extends CBitrixComponent
                 'name' => 'ID',
                 'type' => 'number'
             ],
+            [
+              'id' => 'PROPERTY_CARD_MAINTENANCE_COST_VALUE',
+              'name' => Loc::getMessage('MYLAB.CARD.LIST.CLASS.COST'),
+              'type' => 'number'
+            ],
+            [
+              'id' => 'PROPERTY_CARD_EXPIRATION_DATE_VALUE',
+              'name' => Loc::getMessage('MYLAB.CARD.LIST.CLASS.EXP_DATA'),
+              'type' => 'date'
+            ],
         ];
     }
 
@@ -321,6 +341,8 @@ class CardsListComponent extends CBitrixComponent
      */
     public function prepareFilter(array $arFilterData, &$baseFilter = []): array
     {
+
+//      var_dump($arFilterData);
         $arFilter = [
             'ACTIVE' => 'Y',
             'IBLOCK_ID' => $this->idIBlock,
@@ -333,12 +355,25 @@ class CardsListComponent extends CBitrixComponent
             $arFilter['<=ID'] = (int)$arFilterData['ID_to'];
         }
 
-        if (!empty($arFilterData['PROPERTY_PRICE_VALUE_from'])) {
-            $arFilter['>=PROPERTY_PRICE_VALUE'] = (int)$arFilterData['PROPERTY_PRICE_VALUE_from'];
+        if (!empty($arFilterData['PROPERTY_CARD_MAINTENANCE_COST_VALUE_from'])) {
+          $arFilter['>=PROPERTY_CARD_MAINTENANCE_COST'] = (int)$arFilterData['PROPERTY_CARD_MAINTENANCE_COST_VALUE_from'];
         }
-        if (!empty($arFilterData['PROPERTY_PRICE_VALUE_to'])) {
-            $arFilter['<=PROPERTY_PRICE_VALUE'] = (int)$arFilterData['PROPERTY_PRICE_VALUE_to'];
+        if (!empty($arFilterData['PROPERTY_CARD_MAINTENANCE_COST_VALUE_to'])) {
+          $arFilter['<=PROPERTY_CARD_MAINTENANCE_COST'] = (int)$arFilterData['PROPERTY_CARD_MAINTENANCE_COST_VALUE_to'];
         }
+
+        if (!empty($arFilterData['PROPERTY_CARD_EXPIRATION_DATE_VALUE_from'])) {
+          $arFilter['>=PROPERTY_CARD_EXPIRATION_DATE'] = date(
+            "Y-m-d",
+            strtotime($arFilterData['PROPERTY_CARD_EXPIRATION_DATE_VALUE_from']));
+        }
+        if (!empty($arFilterData['PROPERTY_CARD_EXPIRATION_DATE_VALUE_to'])) {
+          $arFilter['<=PROPERTY_CARD_EXPIRATION_DATE'] = date(
+            "Y-m-d",
+            strtotime($arFilterData['PROPERTY_CARD_EXPIRATION_DATE_VALUE_to']));
+        }
+
+//        var_dump($arFilter);
         return $arFilter;
     }
 
