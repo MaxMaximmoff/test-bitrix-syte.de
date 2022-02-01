@@ -14,5 +14,5 @@ Thumbs.db
 /cgi-bin
 /web.config
 images
-/local/modules/sprint.migration
+/local/modules/sprint.migration/
 /local/composer.lock
