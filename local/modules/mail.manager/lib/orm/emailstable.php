@@ -5,6 +5,10 @@ namespace Mail\Manager\Orm;
 use Bitrix\Main\Entity;
 use Bitrix\Main\Localization\Loc;
 
+use Bitrix\Main\ORM\Fields\IntegerField;
+use Bitrix\Main\ORM\Fields\Relations\Reference;
+use Bitrix\Main\ORM\Query\Join;
+
 /**
  * Class ProfilesTable
  * @package app\Orm
@@ -40,6 +44,15 @@ class EmailsTable extends Entity\DataManager
             new Entity\StringField('EMAIL', [
                 'title' => Loc::getMessage('YLAB_MAIL_MANAGER_PROFILE_EMAIL_FIELD'),
             ]),
+            new Entity\IntegerField('ADDRESS', [
+                'title' => Loc::getMessage('YLAB_MAIL_MANAGER_PROFILE_ADDRESS_FIELD')
+            ]),
+            (new Reference(
+              'ADDR',
+              AddressesTable::class,
+              Join::on('this.ADDRESS', 'ref.ID')
+            ))
+              ->configureJoinType('left')
         ];
     }
 

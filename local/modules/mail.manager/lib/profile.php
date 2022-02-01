@@ -25,12 +25,18 @@ class Profile
         $result['HEADER']['ID'] = Loc::getMessage('YLAB_MAIL_MANAGER_PROFILE_HEAD_ID');
         $result['HEADER']['NAME'] = Loc::getMessage('YLAB_MAIL_MANAGER_PROFILE_HEAD_NAME');
         $result['HEADER']['EMAIL'] = Loc::getMessage('YLAB_MAIL_MANAGER_PROFILE_HEAD_EMAIL');
+        $result['HEADER']['ADDRESS'] = Loc::getMessage('YLAB_MAIL_MANAGER_PROFILE_HEAD_ADDRESS');
+        $result['HEADER']['CITY'] = Loc::getMessage('YLAB_MAIL_MANAGER_PROFILE_HEAD_CITY');
+        $result['HEADER']['STREET'] = Loc::getMessage('YLAB_MAIL_MANAGER_PROFILE_HEAD_STREET');
+        $result['HEADER']['HOUSE'] = Loc::getMessage('YLAB_MAIL_MANAGER_PROFILE_HEAD_HOUSE');
 
         $arParams = [
             'select' => [
                 'ID',
                 'NAME',
-                'EMAIL'
+                'EMAIL',
+                'ADDRESS',
+                'ADDR'
             ]
         ];
 
@@ -69,6 +75,7 @@ class Profile
      */
     public function addProfile($arFields)
     {
+      EmailsTable::add($arFields);
     }
 
     /**
@@ -76,6 +83,7 @@ class Profile
      */
     public function updateProfile($iProfileID, $arFields)
     {
+      EmailsTable::update($iProfileID, $arFields);
     }
 
     /**
@@ -83,5 +91,6 @@ class Profile
      */
     public function deleteProfile($iProfileID)
     {
+      EmailsTable::delete($iProfileID);
     }
 }
